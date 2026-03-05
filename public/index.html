@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -9,11 +10,19 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap"
+    rel="stylesheet" />
 
   <style>
     /* ==================== RESET & BASE ==================== */
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
     :root {
       --bg-dark: #0a0a0f;
@@ -26,7 +35,8 @@
       --text-muted: #6b6b7b;
     }
 
-    html, body {
+    html,
+    body {
       height: 100%;
       font-family: 'Inter', sans-serif;
       background: var(--bg-dark);
@@ -40,8 +50,8 @@
       position: fixed;
       inset: 0;
       background:
-        linear-gradient(rgba(0,200,255,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,200,255,0.03) 1px, transparent 1px);
+        linear-gradient(rgba(0, 200, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 200, 255, 0.03) 1px, transparent 1px);
       background-size: 60px 60px;
       pointer-events: none;
       z-index: 0;
@@ -53,7 +63,7 @@
       position: fixed;
       width: 600px;
       height: 600px;
-      background: radial-gradient(circle, rgba(0,212,255,0.08) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(0, 212, 255, 0.08) 0%, transparent 70%);
       top: -200px;
       left: -200px;
       border-radius: 50%;
@@ -63,8 +73,13 @@
     }
 
     @keyframes orbFloat {
-      0%   { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(100px, 150px) scale(1.4); }
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      100% {
+        transform: translate(100px, 150px) scale(1.4);
+      }
     }
 
     /* ==================== WRAPPER ==================== */
@@ -90,8 +105,15 @@
     }
 
     @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to   { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .logo-icon {
@@ -103,13 +125,20 @@
       align-items: center;
       justify-content: center;
       font-size: 36px;
-      box-shadow: 0 0 40px rgba(0,212,255,0.3);
+      box-shadow: 0 0 40px rgba(0, 212, 255, 0.3);
       animation: logoPulse 3s ease-in-out infinite;
     }
 
     @keyframes logoPulse {
-      0%, 100% { box-shadow: 0 0 30px rgba(0,212,255,0.25); }
-      50%      { box-shadow: 0 0 60px rgba(0,212,255,0.5); }
+
+      0%,
+      100% {
+        box-shadow: 0 0 30px rgba(0, 212, 255, 0.25);
+      }
+
+      50% {
+        box-shadow: 0 0 60px rgba(0, 212, 255, 0.5);
+      }
     }
 
     .title {
@@ -125,8 +154,15 @@
     }
 
     @keyframes gradientShift {
-      0%, 100% { background-position: 0% center; }
-      50%      { background-position: 100% center; }
+
+      0%,
+      100% {
+        background-position: 0% center;
+      }
+
+      50% {
+        background-position: 100% center;
+      }
     }
 
     .subtitle {
@@ -159,7 +195,7 @@
       font-size: clamp(2.5rem, 10vw, 4rem);
       font-weight: 900;
       color: var(--accent);
-      text-shadow: 0 0 30px rgba(0,212,255,0.5);
+      text-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
       transition: transform 0.3s ease;
     }
 
@@ -187,8 +223,15 @@
     }
 
     @keyframes dotBlink {
-      0%, 100% { opacity: 1; }
-      50%      { opacity: 0.3; }
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.3;
+      }
     }
 
     /* Pulse rings around the counter card */
@@ -196,18 +239,30 @@
       position: absolute;
       width: 200px;
       height: 200px;
-      border: 1px solid rgba(0,212,255,0.1);
+      border: 1px solid rgba(0, 212, 255, 0.1);
       border-radius: 50%;
       animation: pulseRing 4s ease-out infinite;
       pointer-events: none;
     }
 
-    .pulse-ring:nth-child(2) { animation-delay: 1.3s; }
-    .pulse-ring:nth-child(3) { animation-delay: 2.6s; }
+    .pulse-ring:nth-child(2) {
+      animation-delay: 1.3s;
+    }
+
+    .pulse-ring:nth-child(3) {
+      animation-delay: 2.6s;
+    }
 
     @keyframes pulseRing {
-      0%   { transform: scale(0.8); opacity: 0.6; }
-      100% { transform: scale(2.5); opacity: 0; }
+      0% {
+        transform: scale(0.8);
+        opacity: 0.6;
+      }
+
+      100% {
+        transform: scale(2.5);
+        opacity: 0;
+      }
     }
 
     /* ==================== LAUNCH STATE ==================== */
@@ -225,9 +280,20 @@
     }
 
     @keyframes flashIn {
-      0%   { opacity: 0; transform: scale(0.5); }
-      50%  { opacity: 1; transform: scale(1.08); }
-      100% { opacity: 1; transform: scale(1); }
+      0% {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.08);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
 
     .launch-icon {
@@ -236,8 +302,15 @@
     }
 
     @keyframes iconPulse {
-      0%   { transform: scale(1) rotate(-3deg); text-shadow: 0 0 20px rgba(0,212,255,0.4); }
-      100% { transform: scale(1.1) rotate(3deg); text-shadow: 0 0 50px rgba(0,212,255,0.8); }
+      0% {
+        transform: scale(1) rotate(-3deg);
+        text-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+      }
+
+      100% {
+        transform: scale(1.1) rotate(3deg);
+        text-shadow: 0 0 50px rgba(0, 212, 255, 0.8);
+      }
     }
 
     .launch-heading {
@@ -285,7 +358,17 @@
     }
   </style>
 </head>
+
 <body>
+
+  <!-- ===== INIT OVERLAY ===== -->
+  <!-- Required for user gesture to allow vibration & camera access -->
+  <div id="init-overlay"
+    style="position:fixed; inset:0; z-index:999; display:flex; flex-direction:column; align-items:center; justify-content:center; background:var(--bg-dark); cursor:pointer; transition: opacity 0.3s ease;">
+    <div class="logo-icon" style="margin-bottom:20px;">⚡</div>
+    <h2 style="font-family:'Orbitron', sans-serif; margin-bottom:10px;">READY TO JOIN</h2>
+    <p style="color:var(--text-muted); font-size:0.9rem;">Tap anywhere to activate launch terminal</p>
+  </div>
 
   <!-- Confetti overlay -->
   <canvas id="confetti-canvas"></canvas>
@@ -303,7 +386,7 @@
       </div>
 
       <h1 class="title">PULSE LAUNCH NETWORK</h1>
-      <p class="subtitle">Stay on this page for the surprise launch.<br/>Your device is connected and ready.</p>
+      <p class="subtitle">Stay on this page for the surprise launch.<br />Your device is connected and ready.</p>
 
       <div class="counter-card">
         <div class="counter-label">Connected Devices</div>
@@ -338,10 +421,20 @@
     // DOM references
     // ========================
     const waitingScreen = document.getElementById('waiting-screen');
-    const launchScreen  = document.getElementById('launch-screen');
-    const deviceCount   = document.getElementById('device-count');
-    const connError     = document.getElementById('conn-error');
+    const launchScreen = document.getElementById('launch-screen');
+    const deviceCount = document.getElementById('device-count');
+    const connError = document.getElementById('conn-error');
     const confettiCanvas = document.getElementById('confetti-canvas');
+    const initOverlay = document.getElementById('init-overlay');
+
+    // Remove initialization overlay on tap
+    initOverlay.addEventListener('click', () => {
+      // Small dummy vibrate to initialize the user gesture for the document
+      if (navigator.vibrate) navigator.vibrate(1);
+
+      initOverlay.style.opacity = '0';
+      setTimeout(() => initOverlay.style.display = 'none', 300);
+    });
 
     // ========================
     // Socket.io connection
@@ -375,17 +468,36 @@
     });
 
     // ========================
+    // Flashlight (Torch) feature
+    // ========================
+    async function triggerTorch() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+        const track = stream.getVideoTracks()[0];
+        const capabilities = track.getCapabilities ? track.getCapabilities() : {};
+        if (capabilities.torch) {
+          await track.applyConstraints({ advanced: [{ torch: true }] });
+        }
+      } catch (err) {
+        console.warn('Torch activation unsupported or denied:', err);
+      }
+    }
+
+    // ========================
     // Launch trigger
     // ========================
     function triggerLaunch() {
-      // Vibrate (works on supported mobile browsers)
+      // Vibrate (works on supported mobile browsers with prior interaction)
       if (navigator.vibrate) {
-        navigator.vibrate([200, 100, 200, 100, 500]);
+        navigator.vibrate([300, 100, 300]);
       }
+
+      // Attempt flashlight toggle
+      triggerTorch();
 
       // Swap screens
       waitingScreen.style.display = 'none';
-      launchScreen.style.display  = 'flex';
+      launchScreen.style.display = 'flex';
 
       // Fire confetti
       startConfetti();
@@ -396,7 +508,7 @@
     // ========================
     function startConfetti() {
       const ctx = confettiCanvas.getContext('2d');
-      confettiCanvas.width  = window.innerWidth;
+      confettiCanvas.width = window.innerWidth;
       confettiCanvas.height = window.innerHeight;
 
       const colors = ['#00d4ff', '#7b2eff', '#ff2ecb', '#00e676', '#ffd600', '#ff5252', '#ffffff'];
@@ -457,9 +569,10 @@
 
     // Handle window resize for confetti canvas
     window.addEventListener('resize', () => {
-      confettiCanvas.width  = window.innerWidth;
+      confettiCanvas.width = window.innerWidth;
       confettiCanvas.height = window.innerHeight;
     });
   </script>
 </body>
+
 </html>

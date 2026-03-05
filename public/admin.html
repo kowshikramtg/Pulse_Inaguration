@@ -373,6 +373,12 @@
             setTimeout(() => deviceCount.classList.remove('bump'), 300);
         });
 
+        // Error handling for incorrect PIN
+        socket.on('error_msg', (msg) => {
+            alert('Error: ' + msg);
+            setStandbyState(); // Revert UI if launch/reset failed
+        });
+
         // If another admin already launched
         socket.on('launch_event', () => {
             setLaunchedState();
@@ -392,10 +398,13 @@
                 return;
             }
 
-            // Emit launch to server
-            socket.emit('launch');
+            const pin = prompt('Enter Admin PIN to launch (default: 1234):');
+            if (!pin) return;
 
-            // Update UI
+            // Emit launch to server
+            socket.emit('launch', pin);
+
+            // Update UI optimistically (will be reverted if error)
             setLaunchedState();
         });
 
@@ -406,7 +415,11 @@
             if (!confirm('Reset the launch? All audience screens will return to waiting state.')) {
                 return;
             }
-            socket.emit('reset');
+
+            const pin = prompt('Enter Admin PIN to reset (default: 1234):');
+            if (!pin) return;
+
+            socket.emit('reset', pin);
             setStandbyState();
         });
 

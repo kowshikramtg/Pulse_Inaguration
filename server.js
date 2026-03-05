@@ -48,7 +48,14 @@ io.on('connection', (socket) => {
   }
 
   // --- Admin triggers launch ---
-  socket.on('launch', () => {
+  socket.on('launch', (pin) => {
+    // Basic PIN security
+    const adminPin = process.env.ADMIN_PIN || '1234';
+    if (pin !== adminPin) {
+      socket.emit('error_msg', 'Invalid Admin PIN');
+      return;
+    }
+
     if (!launched) {
       launched = true;
       console.log('🚀 LAUNCH EVENT TRIGGERED — Broadcasting to all devices!');
@@ -57,7 +64,13 @@ io.on('connection', (socket) => {
   });
 
   // --- Admin resets launch (optional, for testing) ---
-  socket.on('reset', () => {
+  socket.on('reset', (pin) => {
+    const adminPin = process.env.ADMIN_PIN || '1234';
+    if (pin !== adminPin) {
+      socket.emit('error_msg', 'Invalid Admin PIN');
+      return;
+    }
+
     launched = false;
     console.log('🔄 Launch has been reset.');
     io.emit('reset_event');
