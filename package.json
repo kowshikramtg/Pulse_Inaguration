@@ -1,0 +1,14 @@
+{
+  "name": "pulse-launch",
+  "version": "1.0.0",
+  "description": "Real-time tech fest inauguration launch system",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "socket.io": "^4.7.5"
+  }
+}

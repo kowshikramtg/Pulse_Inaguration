@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="description" content="Pulse Launch — Join the Tech Fest 2026 inauguration live from your phone." />
+  <title>Pulse Launch — Tech Fest 2026</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ==================== RESET & BASE ==================== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg-dark: #0a0a0f;
+      --bg-card: rgba(255, 255, 255, 0.03);
+      --border-glow: rgba(0, 200, 255, 0.15);
+      --accent: #00d4ff;
+      --accent-alt: #7b2eff;
+      --accent-pink: #ff2ecb;
+      --text: #e4e4e8;
+      --text-muted: #6b6b7b;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text);
+      overflow: hidden;
+    }
+
+    /* ==================== BACKGROUND GRID ==================== */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        linear-gradient(rgba(0,200,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,200,255,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Animated gradient orbs */
+    body::after {
+      content: '';
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(0,212,255,0.08) 0%, transparent 70%);
+      top: -200px;
+      left: -200px;
+      border-radius: 50%;
+      animation: orbFloat 12s ease-in-out infinite alternate;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @keyframes orbFloat {
+      0%   { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(100px, 150px) scale(1.4); }
+    }
+
+    /* ==================== WRAPPER ==================== */
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 24px;
+      text-align: center;
+    }
+
+    /* ==================== WAITING STATE ==================== */
+    #waiting-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      animation: fadeInUp 0.8s ease;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-alt));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      box-shadow: 0 0 40px rgba(0,212,255,0.3);
+      animation: logoPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes logoPulse {
+      0%, 100% { box-shadow: 0 0 30px rgba(0,212,255,0.25); }
+      50%      { box-shadow: 0 0 60px rgba(0,212,255,0.5); }
+    }
+
+    .title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(1.2rem, 5vw, 1.6rem);
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--accent), var(--accent-alt), var(--accent-pink));
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradientShift 4s ease-in-out infinite;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% center; }
+      50%      { background-position: 100% center; }
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 300px;
+      line-height: 1.6;
+    }
+
+    /* --- Counter Card --- */
+    .counter-card {
+      margin-top: 12px;
+      padding: 20px 40px;
+      border-radius: 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-glow);
+      backdrop-filter: blur(10px);
+    }
+
+    .counter-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .counter-value {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(2.5rem, 10vw, 4rem);
+      font-weight: 900;
+      color: var(--accent);
+      text-shadow: 0 0 30px rgba(0,212,255,0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .counter-value.bump {
+      transform: scale(1.15);
+    }
+
+    /* Status dot */
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #00e676;
+      box-shadow: 0 0 8px #00e676;
+      animation: dotBlink 2s ease-in-out infinite;
+    }
+
+    @keyframes dotBlink {
+      0%, 100% { opacity: 1; }
+      50%      { opacity: 0.3; }
+    }
+
+    /* Pulse rings around the counter card */
+    .pulse-ring {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border: 1px solid rgba(0,212,255,0.1);
+      border-radius: 50%;
+      animation: pulseRing 4s ease-out infinite;
+      pointer-events: none;
+    }
+
+    .pulse-ring:nth-child(2) { animation-delay: 1.3s; }
+    .pulse-ring:nth-child(3) { animation-delay: 2.6s; }
+
+    @keyframes pulseRing {
+      0%   { transform: scale(0.8); opacity: 0.6; }
+      100% { transform: scale(2.5); opacity: 0; }
+    }
+
+    /* ==================== LAUNCH STATE ==================== */
+    #launch-screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      height: 100%;
+    }
+
+    .launch-flash {
+      animation: flashIn 0.6s ease;
+    }
+
+    @keyframes flashIn {
+      0%   { opacity: 0; transform: scale(0.5); }
+      50%  { opacity: 1; transform: scale(1.08); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .launch-icon {
+      font-size: 64px;
+      animation: iconPulse 1s ease-in-out infinite alternate;
+    }
+
+    @keyframes iconPulse {
+      0%   { transform: scale(1) rotate(-3deg); text-shadow: 0 0 20px rgba(0,212,255,0.4); }
+      100% { transform: scale(1.1) rotate(3deg); text-shadow: 0 0 50px rgba(0,212,255,0.8); }
+    }
+
+    .launch-heading {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(1.6rem, 7vw, 2.8rem);
+      font-weight: 900;
+      background: linear-gradient(90deg, var(--accent), #fff, var(--accent-pink));
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradientShift 3s ease-in-out infinite;
+      line-height: 1.3;
+    }
+
+    .launch-subtext {
+      font-size: 1rem;
+      color: var(--text-muted);
+      max-width: 340px;
+      line-height: 1.7;
+      font-style: italic;
+    }
+
+    .launch-bar {
+      width: 60px;
+      height: 3px;
+      border-radius: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-alt));
+    }
+
+    /* ==================== CONFETTI CANVAS ==================== */
+    #confetti-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    /* ==================== CONNECTION ERROR ==================== */
+    .connection-error {
+      display: none;
+      color: #ff5252;
+      font-size: 0.8rem;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Confetti overlay -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <div class="wrapper">
+
+    <!-- ===== WAITING SCREEN ===== -->
+    <div id="waiting-screen">
+      <!-- Pulse rings behind the logo -->
+      <div style="position:relative; display:flex; align-items:center; justify-content:center;">
+        <div class="pulse-ring"></div>
+        <div class="pulse-ring"></div>
+        <div class="pulse-ring"></div>
+        <div class="logo-icon">⚡</div>
+      </div>
+
+      <h1 class="title">PULSE LAUNCH NETWORK</h1>
+      <p class="subtitle">Stay on this page for the surprise launch.<br/>Your device is connected and ready.</p>
+
+      <div class="counter-card">
+        <div class="counter-label">Connected Devices</div>
+        <div class="counter-value" id="device-count">0</div>
+      </div>
+
+      <div class="status">
+        <span class="status-dot"></span>
+        <span>Connected &amp; Waiting</span>
+      </div>
+
+      <p class="connection-error" id="conn-error">Connection lost. Reconnecting…</p>
+    </div>
+
+    <!-- ===== LAUNCH SCREEN ===== -->
+    <div id="launch-screen">
+      <div class="launch-flash">
+        <div class="launch-icon">⚡</div>
+        <h1 class="launch-heading">TECH FEST 2026<br />IS LIVE</h1>
+        <div class="launch-bar"></div>
+        <p class="launch-subtext">"The future is built by people in this room."</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Socket.io client (served automatically by the server) -->
+  <script src="/socket.io/socket.io.js"></script>
+
+  <script>
+    // ========================
+    // DOM references
+    // ========================
+    const waitingScreen = document.getElementById('waiting-screen');
+    const launchScreen  = document.getElementById('launch-screen');
+    const deviceCount   = document.getElementById('device-count');
+    const connError     = document.getElementById('conn-error');
+    const confettiCanvas = document.getElementById('confetti-canvas');
+
+    // ========================
+    // Socket.io connection
+    // ========================
+    const socket = io({ transports: ['websocket', 'polling'] });
+
+    // Update device count with a little animation bump
+    socket.on('device_count', (count) => {
+      deviceCount.textContent = count;
+      deviceCount.classList.add('bump');
+      setTimeout(() => deviceCount.classList.remove('bump'), 300);
+    });
+
+    // Handle launch event
+    socket.on('launch_event', () => {
+      triggerLaunch();
+    });
+
+    // Handle reset event (for testing purposes)
+    socket.on('reset_event', () => {
+      waitingScreen.style.display = 'flex';
+      launchScreen.style.display = 'none';
+    });
+
+    // Connection status
+    socket.on('connect_error', () => {
+      connError.style.display = 'block';
+    });
+    socket.on('connect', () => {
+      connError.style.display = 'none';
+    });
+
+    // ========================
+    // Launch trigger
+    // ========================
+    function triggerLaunch() {
+      // Vibrate (works on supported mobile browsers)
+      if (navigator.vibrate) {
+        navigator.vibrate([200, 100, 200, 100, 500]);
+      }
+
+      // Swap screens
+      waitingScreen.style.display = 'none';
+      launchScreen.style.display  = 'flex';
+
+      // Fire confetti
+      startConfetti();
+    }
+
+    // ========================
+    // Confetti animation
+    // ========================
+    function startConfetti() {
+      const ctx = confettiCanvas.getContext('2d');
+      confettiCanvas.width  = window.innerWidth;
+      confettiCanvas.height = window.innerHeight;
+
+      const colors = ['#00d4ff', '#7b2eff', '#ff2ecb', '#00e676', '#ffd600', '#ff5252', '#ffffff'];
+      const particles = [];
+      const PARTICLE_COUNT = 200;
+
+      // Create particles
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        particles.push({
+          x: Math.random() * confettiCanvas.width,
+          y: Math.random() * confettiCanvas.height - confettiCanvas.height,
+          w: Math.random() * 10 + 5,
+          h: Math.random() * 6 + 3,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          speedY: Math.random() * 3 + 2,
+          speedX: (Math.random() - 0.5) * 4,
+          rotation: Math.random() * 360,
+          rotationSpeed: (Math.random() - 0.5) * 10,
+          opacity: 1,
+        });
+      }
+
+      let frame = 0;
+      const MAX_FRAMES = 300; // ~5 seconds at 60fps
+
+      function draw() {
+        frame++;
+        ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+
+        particles.forEach((p) => {
+          p.y += p.speedY;
+          p.x += p.speedX;
+          p.rotation += p.rotationSpeed;
+
+          // Fade out near the end
+          if (frame > MAX_FRAMES - 60) {
+            p.opacity = Math.max(0, p.opacity - 0.016);
+          }
+
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate((p.rotation * Math.PI) / 180);
+          ctx.globalAlpha = p.opacity;
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+          ctx.restore();
+        });
+
+        if (frame < MAX_FRAMES) {
+          requestAnimationFrame(draw);
+        } else {
+          ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+        }
+      }
+
+      draw();
+    }
+
+    // Handle window resize for confetti canvas
+    window.addEventListener('resize', () => {
+      confettiCanvas.width  = window.innerWidth;
+      confettiCanvas.height = window.innerHeight;
+    });
+  </script>
+</body>
+</html>

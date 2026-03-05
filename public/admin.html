@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Pulse Launch Admin — Trigger the Tech Fest 2026 inauguration." />
+    <title>Pulse Launch — Admin Panel</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet" />
+
+    <style>
+        /* ==================== RESET & BASE ==================== */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #07070c;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.06);
+            --accent: #00d4ff;
+            --accent-alt: #7b2eff;
+            --accent-pink: #ff2ecb;
+            --green: #00e676;
+            --text: #e4e4e8;
+            --text-muted: #6b6b7b;
+        }
+
+        html,
+        body {
+            height: 100%;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
+            overflow: hidden;
+        }
+
+        /* Subtle grid background */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                linear-gradient(rgba(0, 200, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 200, 255, 0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+        }
+
+        /* ==================== LAYOUT ==================== */
+        .dashboard {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 32px;
+            gap: 32px;
+        }
+
+        /* ==================== HEADER ==================== */
+        .header {
+            text-align: center;
+            animation: fadeIn 0.6s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header-badge {
+            display: inline-block;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--accent);
+            background: rgba(0, 212, 255, 0.08);
+            padding: 6px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 212, 255, 0.15);
+            margin-bottom: 16px;
+        }
+
+        .header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--accent), var(--accent-alt));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ==================== STATS ROW ==================== */
+        .stats {
+            display: flex;
+            gap: 16px;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .stat-card {
+            padding: 20px 32px;
+            border-radius: 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            text-align: center;
+            min-width: 140px;
+            backdrop-filter: blur(8px);
+        }
+
+        .stat-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--accent);
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.35);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-value.bump {
+            transform: scale(1.12);
+        }
+
+        .stat-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 0.7rem;
+            color: var(--green);
+        }
+
+        .stat-status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 6px var(--green);
+            animation: blink 2s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.3;
+            }
+        }
+
+        /* ==================== LAUNCH BUTTON ==================== */
+        .launch-container {
+            position: relative;
+            animation: fadeIn 1s ease;
+        }
+
+        /* Glow ring behind the button */
+        .launch-glow {
+            position: absolute;
+            inset: -20px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.12) 0%, transparent 70%);
+            animation: glowPulse 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes glowPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+
+            50% {
+                transform: scale(1.15);
+                opacity: 1;
+            }
+        }
+
+        #launch-btn {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            border: 3px solid rgba(0, 212, 255, 0.3);
+            background: linear-gradient(145deg, rgba(0, 212, 255, 0.1), rgba(123, 46, 255, 0.08));
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-family: 'Orbitron', sans-serif;
+            color: var(--accent);
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        #launch-btn:hover {
+            border-color: var(--accent);
+            background: linear-gradient(145deg, rgba(0, 212, 255, 0.18), rgba(123, 46, 255, 0.15));
+            transform: scale(1.04);
+            box-shadow: 0 0 60px rgba(0, 212, 255, 0.25);
+        }
+
+        #launch-btn:active {
+            transform: scale(0.97);
+        }
+
+        #launch-btn .btn-icon {
+            font-size: 40px;
+        }
+
+        #launch-btn .btn-text {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        #launch-btn .btn-sub {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        /* Launched state */
+        #launch-btn.launched {
+            border-color: var(--green);
+            background: linear-gradient(145deg, rgba(0, 230, 118, 0.1), rgba(0, 230, 118, 0.05));
+            cursor: default;
+            pointer-events: none;
+        }
+
+        #launch-btn.launched .btn-text,
+        #launch-btn.launched .btn-icon {
+            color: var(--green);
+        }
+
+        /* ==================== RESET BUTTON ==================== */
+        #reset-btn {
+            display: none;
+            margin-top: 12px;
+            padding: 10px 24px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 82, 82, 0.3);
+            background: rgba(255, 82, 82, 0.06);
+            color: #ff5252;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #reset-btn:hover {
+            background: rgba(255, 82, 82, 0.12);
+            border-color: #ff5252;
+        }
+
+        /* ==================== FOOTER ==================== */
+        .footer {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            animation: fadeIn 1.2s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard">
+
+        <!-- Header -->
+        <div class="header">
+            <div class="header-badge">Admin Control Panel</div>
+            <h1>PULSE LAUNCH</h1>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-label">Devices Online</div>
+                <div class="stat-value" id="device-count">0</div>
+                <div class="stat-status">
+                    <span class="stat-status-dot"></span>
+                    <span>Live</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Status</div>
+                <div class="stat-value" id="launch-status" style="font-size: 1rem; color: var(--text-muted);">STANDBY
+                </div>
+                <div class="stat-status" style="visibility: hidden;">
+                    <span class="stat-status-dot"></span>
+                    <span>—</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Launch Button -->
+        <div class="launch-container">
+            <div class="launch-glow"></div>
+            <button id="launch-btn">
+                <span class="btn-icon">🚀</span>
+                <span class="btn-text">Launch</span>
+                <span class="btn-sub">Tech Fest 2026</span>
+            </button>
+        </div>
+
+        <!-- Reset Button (visible after launch) -->
+        <button id="reset-btn">↻ Reset Launch</button>
+
+        <!-- Footer -->
+        <div class="footer">
+            Pulse Launch System &middot; Tech Fest 2026
+        </div>
+    </div>
+
+    <!-- Socket.io client -->
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+        // ========================
+        // DOM references
+        // ========================
+        const launchBtn = document.getElementById('launch-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const deviceCount = document.getElementById('device-count');
+        const launchStatus = document.getElementById('launch-status');
+
+        // ========================
+        // Socket.io connection
+        // ========================
+        const socket = io({ transports: ['websocket', 'polling'] });
+
+        // Update device count with bump animation
+        socket.on('device_count', (count) => {
+            deviceCount.textContent = count;
+            deviceCount.classList.add('bump');
+            setTimeout(() => deviceCount.classList.remove('bump'), 300);
+        });
+
+        // If another admin already launched
+        socket.on('launch_event', () => {
+            setLaunchedState();
+        });
+
+        // Reset event
+        socket.on('reset_event', () => {
+            setStandbyState();
+        });
+
+        // ========================
+        // Launch button click
+        // ========================
+        launchBtn.addEventListener('click', () => {
+            // Confirmation
+            if (!confirm('🚀 Are you sure you want to LAUNCH TECH FEST 2026?\n\nThis will vibrate & notify ALL connected devices.')) {
+                return;
+            }
+
+            // Emit launch to server
+            socket.emit('launch');
+
+            // Update UI
+            setLaunchedState();
+        });
+
+        // ========================
+        // Reset button click
+        // ========================
+        resetBtn.addEventListener('click', () => {
+            if (!confirm('Reset the launch? All audience screens will return to waiting state.')) {
+                return;
+            }
+            socket.emit('reset');
+            setStandbyState();
+        });
+
+        // ========================
+        // UI state helpers
+        // ========================
+        function setLaunchedState() {
+            launchBtn.classList.add('launched');
+            launchBtn.querySelector('.btn-icon').textContent = '✓';
+            launchBtn.querySelector('.btn-text').textContent = 'Launched';
+            launchBtn.querySelector('.btn-sub').textContent = 'Signal sent to all devices';
+            launchStatus.textContent = 'LAUNCHED';
+            launchStatus.style.color = 'var(--green)';
+            resetBtn.style.display = 'inline-block';
+        }
+
+        function setStandbyState() {
+            launchBtn.classList.remove('launched');
+            launchBtn.style.pointerEvents = 'auto';
+            launchBtn.querySelector('.btn-icon').textContent = '🚀';
+            launchBtn.querySelector('.btn-text').textContent = 'Launch';
+            launchBtn.querySelector('.btn-sub').textContent = 'Tech Fest 2026';
+            launchStatus.textContent = 'STANDBY';
+            launchStatus.style.color = 'var(--text-muted)';
+            resetBtn.style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>
